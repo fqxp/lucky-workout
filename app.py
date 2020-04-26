@@ -48,7 +48,7 @@ def random_youtube_video(duration):
 
 
 def random_query(duration):
-    index = random.randint(0, len(QUERIES))
+    index = random.randint(0, len(QUERIES) - 1)
     return '{} {}'.format(duration, QUERIES[index])
 
 
