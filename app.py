@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import logging
 import json
 import os
 import random
@@ -37,10 +38,14 @@ def index():
 
 def random_youtube_video(duration):
     query = random_query(duration=20)
+    app.logger.info('Youtube: Searching for »{}«'.format(query))
     result = search_youtube(query)
+    app.logger.info('Youtube: Got {} results'.format(len(result['items'])))
     index = random.randint(0, len(result['items']) - 1)
+    video_id = result['items'][index]['id']['videoId']
+    app.logger.info('Youtube: Chose random video with id {}'.format(video_id))
 
-    return result['items'][index]['id']['videoId']
+    return video_id
 
 
 def random_query(duration):
