@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 import logging
-import json
 import os
 import random
 import requests
@@ -60,3 +59,9 @@ def search_youtube(query):
             max_results=MAX_RESULTS)
     response = requests.get(url)
     return response.json()
+
+
+if __name__ != '__main__':
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
