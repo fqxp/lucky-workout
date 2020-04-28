@@ -19,6 +19,18 @@ body {
 #header {
   color: white;
   flex-grow: 0;
+  font: 14px sans-serif;
+  padding: 2px;
+}
+
+#header a, #header a:visited {
+  color: #cccccc;
+  text-decoration: none;
+  padding: 2px 5px;
+}
+#header a:hover {
+  color: #ffffff;
+  background-color: #666666;
 }
 
 #player {

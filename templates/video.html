@@ -7,7 +7,12 @@
     <title>RaNdOM woRkoUt vidEO</title>
   </head>
   <body id="container">
-    <div id="header">RaNdOM woRkoUt vidEO</div>
+    <div id="header">
+      RaNdOM woRkoUt vidEO
+      <a href="{{ url_for('index') }}?d=5">5 min</a>
+      <a href="{{ url_for('index') }}?d=10">10 min</a>
+      <a href="{{ url_for('index') }}?d=20">20 min</a>
+    </div>
     <div id="player"></div>
 
     <script type="text/javascript">

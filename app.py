@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import logging
 import os
 import random
@@ -7,13 +7,13 @@ import requests
 GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
 MAX_RESULTS = 50
 QUERIES = [
-    ' minutes workout',
-    ' minutes yoga',
-    ' minutes pilates',
-    ' minutes stretching',
-    ' minutes hiit',
-    ' minutes tai chi',
-    ' minutes qi gong',
+    ' workout',
+    ' yoga',
+    ' pilates',
+    ' stretching',
+    ' hiit',
+    ' tai chi',
+    ' qi gong',
 ]
 
 
@@ -31,17 +31,24 @@ app = create_app()
 
 @app.route('/')
 def index():
-    video_id = random_youtube_video(duration=20)
+    duration = request.args.get('d', '20')
+    print('duration', duration)
+    video_id = random_youtube_video(duration=duration)
     return render_template('video.html', video_id=video_id)
 
 
 def random_youtube_video(duration):
-    query = random_query(duration=20)
+    query = random_query(duration=duration)
+
     app.logger.info('Youtube: Searching for »{}«'.format(query))
+
     result = search_youtube(query)
+
     app.logger.info('Youtube: Got {} results'.format(len(result['items'])))
+
     index = random.randint(0, len(result['items']) - 1)
     video_id = result['items'][index]['id']['videoId']
+
     app.logger.info('Youtube: Chose random video with id {}'.format(video_id))
 
     return video_id
@@ -49,7 +56,7 @@ def random_youtube_video(duration):
 
 def random_query(duration):
     index = random.randint(0, len(QUERIES) - 1)
-    return '{} {}'.format(duration, QUERIES[index])
+    return '"{} minutes" {}'.format(duration, QUERIES[index])
 
 
 def search_youtube(query):
